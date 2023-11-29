@@ -4,7 +4,6 @@ import jade.core.AID;
 import lombok.extern.slf4j.Slf4j;
 import utils.JsonUtils;
 
-import java.lang.management.ThreadInfo;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +15,6 @@ public class AgentDetector implements AgentDetectorInterface {
     private boolean flagStart;
     private boolean flagDiscovering;
     private boolean flagLive;
-    // поле для хранения списка живых агентов
     private Map<AID, Long> activeAgents;
     private RawUdpSocketCLient client;
     private RawUdpSocketServer discovering;
@@ -99,16 +97,6 @@ public class AgentDetector implements AgentDetectorInterface {
     }
 
 
-    // sending UDP with agentData (AgentName and isGUID) as JSON
-    // receive UDP with agentData, parse it and collect into LIST
-    // detect agent missing
 
-    //List<AID> getCurrentAgents()
-
-//    void test() {
-//        Thread t = new Thread();
-//        t.interrupt();
-//        t.stop();
-//    }
 
 }

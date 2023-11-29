@@ -1,6 +1,5 @@
 package AgentDetector;
 
-import com.sun.jna.WString;
 import jade.core.AID;
 
 import java.util.List;

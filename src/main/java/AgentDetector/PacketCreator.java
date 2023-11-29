@@ -28,31 +28,3 @@ public class PacketCreator {
     }
 
 }
-
-//        byte[] bytePort = new byte[]{0,0};
-//        if (port>100){
-//            bytePort[0] = Byte.parseByte(Integer.toString(port / 100));
-//            bytePort[1] = Byte.parseByte(Integer.toString(port%100));
-//        }else{
-//            bytePort[1]=(byte) port;
-//        }
-//        System.out.println();
-//        System.out.println("System.out.println(Byte.parseByte(Integer.toString(port/100)))   "+Byte.parseByte(Integer.toString(port/100)));
-//        System.out.println("(port / 100)  "+(port / 100));
-//        System.out.println("bytePort[0]  "+bytePort[0]+"    bytePort[1]  "+bytePort[1]);
-
-//        String sbite = Integer.toString(port);
-//        byte[] bytePort = new byte[]{Byte.parseByte(sbite)};
-//        System.out.println(bytePort);
-
-
-
-
-
-
-
-
-//        for (int i : longToBytes(port)) System.out.println(i);
-        //        for(int i = 0 ;i < bytePort.length;i++){
-//            byteData[26 + i] = bytePort[i];
-//        }

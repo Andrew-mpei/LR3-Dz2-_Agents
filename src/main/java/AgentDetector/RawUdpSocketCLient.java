@@ -10,7 +10,6 @@ import java.util.List;
 public class RawUdpSocketCLient {
     private PcapHandle pcapHandle;
     static {
-        //install wireshark and check npcap was installed
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             NativeLibrary.addSearchPath("wpcap", "C:\\Windows\\System32\\Npcap");
         }

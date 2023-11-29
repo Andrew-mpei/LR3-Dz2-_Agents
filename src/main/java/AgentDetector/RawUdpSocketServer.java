@@ -61,10 +61,7 @@ public class RawUdpSocketServer {
             pcapHandle.loop(0, (PacketListener) packet -> {
                 byte[] rawData = packet.getRawData();
                 byte[] data = new byte[rawData.length-32];
-//                System.out.println(Arrays.toString(rawData));
                 System.arraycopy(rawData, 32, data, 0, data.length);
-//                System.out.println(new String(data).replace("\000", ""));
-                //обработать пакет
                 handlePacket(new String(data).replace("\000", ""));
                 if (!run){
                     try {
@@ -76,7 +73,6 @@ public class RawUdpSocketServer {
             });
         } catch (PcapNativeException | InterruptedException | NotOpenException e) {
             log.info("discover thread was stopped");
-//            throw new RuntimeException(e);
         }
     }
 
