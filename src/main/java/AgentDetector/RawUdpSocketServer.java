@@ -75,7 +75,8 @@ public class RawUdpSocketServer {
                 }
             });
         } catch (PcapNativeException | InterruptedException | NotOpenException e) {
-            throw new RuntimeException(e);
+            log.info("discover thread was stopped");
+//            throw new RuntimeException(e);
         }
     }
 
@@ -83,12 +84,16 @@ public class RawUdpSocketServer {
         Optional<AidDTO> packetDataOp = JsonUtils.decode(packetData, AidDTO.class);
         if (!packetDataOp.isEmpty()){
             AidDTO dto = packetDataOp.get();
-            if (!dto.getName().equals(myAgentName)){
+            if (!dto.getName().equals(myAgentName) && this.run){
                 AID receivedAid = new AID(dto.getName(), dto.isGuid());
                 Long time = System.currentTimeMillis();
                 this.activeAgents.put(receivedAid, time);
             }
         }
+    }
+
+    public void stopThread() {
+        this.run = false;
     }
 
 

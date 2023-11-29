@@ -4,6 +4,7 @@ import jade.core.AID;
 import lombok.extern.slf4j.Slf4j;
 import utils.JsonUtils;
 
+import java.lang.management.ThreadInfo;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +18,8 @@ public class AgentDetector implements AgentDetectorInterface {
     private boolean flagLive;
     // поле для хранения списка живых агентов
     private Map<AID, Long> activeAgents;
+    private RawUdpSocketCLient client;
+    private RawUdpSocketServer discovering;
 
 
     public AgentDetector(AID aid) {
@@ -37,7 +40,7 @@ public class AgentDetector implements AgentDetectorInterface {
             PacketCreator packetСreator = new PacketCreator();
             byte[] packet = packetСreator.create(msg, port);
 
-            RawUdpSocketCLient client = new RawUdpSocketCLient();
+            this.client = new RawUdpSocketCLient();
             client.startThread(packet, 500);
             this.flagStart = true;
         }else{
@@ -48,7 +51,7 @@ public class AgentDetector implements AgentDetectorInterface {
     @Override
     public void startDiscovering(int port) {
         if (!this.flagDiscovering){
-            RawUdpSocketServer discovering = new RawUdpSocketServer(this.activeAgents, this.myAgentAid.getLocalName());
+            this.discovering = new RawUdpSocketServer(this.activeAgents, this.myAgentAid.getLocalName());
             discovering.start(port);
         }else{
             log.warn("Thread already started");
@@ -57,8 +60,9 @@ public class AgentDetector implements AgentDetectorInterface {
 
     public void isAlive() {
         if (!this.flagLive) {
+            this.flagLive = true;
             new Thread(() -> {
-                while (true) {
+                while (this.flagLive) {
                     monitor();
                     try {
                         Thread.sleep(1000);
@@ -81,8 +85,17 @@ public class AgentDetector implements AgentDetectorInterface {
 
     @Override
     public List<AID> getActiveAgents() {
-
         return this.activeAgents.keySet().stream().toList();
+    }
+
+    public void stop() {
+        this.client.stopThread();
+        this.discovering.stopThread();
+        this.flagStart = false;
+        this.flagDiscovering = false;
+        this.flagLive = false;
+        this.activeAgents.clear();
+
     }
 
 
@@ -91,5 +104,11 @@ public class AgentDetector implements AgentDetectorInterface {
     // detect agent missing
 
     //List<AID> getCurrentAgents()
+
+//    void test() {
+//        Thread t = new Thread();
+//        t.interrupt();
+//        t.stop();
+//    }
 
 }

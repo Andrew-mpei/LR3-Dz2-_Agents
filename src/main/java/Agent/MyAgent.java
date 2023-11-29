@@ -12,4 +12,5 @@ public class MyAgent extends Agent {
         ad.isAlive();
         this.addBehaviour(new CheckBehaviour(this, 1000, ad));
     }
+
 }

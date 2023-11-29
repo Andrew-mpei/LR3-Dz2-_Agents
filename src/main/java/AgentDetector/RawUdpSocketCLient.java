@@ -16,11 +16,13 @@ public class RawUdpSocketCLient {
         }
     }
 
+    private boolean needToRun = false;
+
     public void startThread(byte[] data, long period) {
         initialize();
-
+        this.needToRun = true;
         new Thread( ()-> {
-            while(true) {
+            while(this.needToRun) {
                 this.send(data);
                 try {
                     Thread.sleep(period);
@@ -61,6 +63,9 @@ public class RawUdpSocketCLient {
         }
     }
 
+    public void stopThread() {
+        this.needToRun = false;
+    }
 
 
 }
